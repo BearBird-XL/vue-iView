@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1.回顾Object.defineProperty方法</title>
+</head>
+<body>
+
+<script>
+    let person = {
+        name: 'IU',
+        sex: 'Woman',
+    }
+
+    Object.defineProperty(person, 'age', {
+        value: 28,
+        enumerable: true, // 控制属性是否可以枚举 默认false
+        writable: true, // 控制属性是否可以被修改 默认false
+        configurable: true, // 控制属性是否可以被删除 默认false
+    })
+    console.log(person)
+    delete (person.age)
+    console.log(Object.keys(person))
+
+
+    let IU = {
+        name: 'IU',
+        age: 19,
+    }
+
+    Object.defineProperty(IU, 'LovePerson', {
+        enumerable: true,
+        // 当有人读取IU的LovePerson属性时，get函数(getter)被调用, 返回值就是age的值
+        get() {
+            return xl;
+        },
+        // 当有人修改person的age属性时， set函数(setter)被调用，且会改变源值
+        set(v) {
+            xl = v;
+        }
+    })
+
+    let xl = {
+        name: 'xl',
+        age: 23
+    }
+
+</script>
+</body>
+</html>
