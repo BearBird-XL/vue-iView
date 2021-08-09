@@ -3,10 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>2.事件修饰符</title>
+    <style>
+        * {
+            margin-top: 20px;
+        }
+
+        .demo1 {
+            height: 50px;
+            background-color: cadetblue;
+        }
+
+        .demo2-1 {
+            background-color: darkolivegreen;
+            padding: 5px;
+        }
+
+        .demo2-2 {
+            background-color: cadetblue;
+            padding: 5px;
+        }
+
+        .list {
+            width: 200px;
+            height: 200px;
+            background-color: antiquewhite;
+            overflow: auto;
+        }
+
+        li {
+            height: 100px;
+        }
+    </style>
 </head>
 <body>
-<div id="app">
+<!--
+    Vue中的事件修饰符：
+        1. prevent：阻止默认事件（常用）
+        2. stop: 阻止事件冒泡
+        3. once: 事件只触发一次
+        4. capture： 使用事件的捕获模式
+        5. self: 只有event.target是当前操作的元素才触发事件
+        6. passive: 事件的默认行为为立即执行， 无需等待事件回调执行完毕
+-->
 
+<div id="app">
+    <h2>欢迎：{{name}}</h2>
+    <h3>阻止默认花事件</h3>
+    <!--  阻止默认事件（常用） -->
+    <a href="http://xionglei.xyz" @click.prevent="showInfo">点我跳转</a>
+    <!--  阻止事件冒泡  -->
+    <h3>阻止事件冒泡</h3>
+    <div class="demo1" @click="showInfo">
+        <button v-on:click.stop="showInfo">点我提示信息</button>
+        <a href="http://xionglei.xyz" @click.prevent.stop="showInfo">点我跳转</a>
+    </div>
+
+    <!--  事件只触发一次  -->
+    <h3>事件只触发一次</h3>
+    <div class="demo1" @click.once="showInfo">
+        <button v-on:click.once="showInfo">点我提示信息</button>
+    </div>
+
+    <h3>使用事件的捕获模式</h3>
+    <!--  不适用输出2 1;使用后输出1 2  -->
+    <!--  默认情况下JS事件获取从外到内，事件处理由内到外  -->
+    <div class="demo2-1" v-on:click.capture="showMsg('div1')">
+        div1
+        <div class="demo2-2" @click="showMsg('div2')">
+            div2
+        </div>
+    </div>
+
+    <h3>只有event.target是当前操作的元素才触发事件</h3>
+    <!--  @click.self只有当点击后event.target(点的谁谁就是target)是当前操作的元素才会触发事件  -->
+    <!--  如下：点击div 就不会触发div1的事件  -->
+    <div class="demo2-1" v-on:click.self="showMsg('1')">
+        div1
+        <div class="demo2-2" @click="showMsg('2')">
+            div2
+        </div>
+    </div>
+
+    <h3>事件的默认行为为立即执行， 无需等待事件回调执行完毕</h3>
+    <!--  scroll 滚动条滚动触发事件 默认滚动事件执行完毕之后页面向下滑
+          wheel 鼠标滚轮滚动触发事件
+      -->
+    <ul class="list" @wheel.passive="roll">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
 </div>
 
 <script src="../lib/js/vue.js"></script>
@@ -14,7 +101,26 @@
     Vue.config.productionTip = false;
     let vm = new Vue({
         el: "#app",
-        data: {},
+        data: {
+            name: "Kaede Karen",
+        },
+        methods: {
+            showInfo(e) {
+                // e.preventDefault(); // 阻止事件默认行为的方法
+                // e.stopPropagation(); // 阻止事件冒泡
+                // 事件只触发一次
+                alert("Hello " + this.name);
+            },
+            showMsg(msg) {
+                console.log(msg);
+            },
+            roll() {
+                for (let i = 0; i < 10_000; i++) {
+                    console.log(i);
+                    console.log("累坏了")
+                }
+            }
+        }
     });
 </script>
 </body>
