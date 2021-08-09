@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1.事件处理的基本使用</title>
+</head>
+<body>
+<!--
+    事件的基本使用：
+        1. 使用v-on:xxx或者@xxx绑定事件，其中xxx是事件名
+        2. 事件的回调需要配置在methods函数中，最终会在vm上
+        3. methods中配置的函数不要用箭头函数， 否则this指向的不是vm了
+        4. methods中配置的函数，都是被Vue管理的函数，this指向的是vm或组件实例对象
+        5. @click:"demo" 和 @click"demo($event)" 效果一致，但后者可以传参
+
+-->
+
+
+<div id="app">
+    <h1 v-on:click="showInfo1">Hello, {{name}}, 点我！()</h1>
+    <h1 @click="showInfo2($event, 66)">Hello, {{name}}, + maple 点我！</h1>
+</div>
+
+<script src="../lib/js/vue.js"></script>
+<script>
+    Vue.config.productionTip = false;
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            name: "Kaede Karen",
+        },
+        methods: {
+            showInfo1(event) {
+                console.log("hello, " + this.name + "-------1-------");
+                console.log(event.target); // target 元素 拿到点击的这个元素
+                console.log(this); // 此处的this是vm
+                // alert("Hello, " + this.name);
+                console.log("hello, " + this.name + "-------1-------");
+            },
+            showInfo2(event, num) {
+                console.log("hello, " + this.name + "-------2-------");
+                console.log("hello" + this.name);
+                console.log(event);
+                console.log(num);
+                console.log("hello, " + this.name + "-------2-------");
+            }
+        }
+    });
+</script>
+</body>
+</html>
