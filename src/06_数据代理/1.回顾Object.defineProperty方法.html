@@ -45,6 +45,37 @@
         age: 23
     }
 
+
+    console.log("-----------------")
+    let objA = {
+        a:"Hello, A",
+        b:"Hello, B",
+    }
+    console.log(objA)
+    function Proxy() {
+        this.p1 = this.p2 = 0;
+
+        this.addAll = function(o) {
+            for (let property of Object.keys(o)) {
+                Object.defineProperty(this, property, {
+                    get() {
+                        return o[property];
+                    },
+                    set(value) {
+                        o[property] = value;
+                    }
+                });
+            }
+        }
+    }
+
+    let proxy;
+    console.log(proxy = new Proxy());
+
+    setTimeout(()=>{
+        proxy.addAll(objA);
+    },1000)
+
 </script>
 </body>
 </html>
