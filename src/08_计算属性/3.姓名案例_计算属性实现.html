@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1.姓名案例_插值语法实现.html</title>
+
+</head>
+<body>
+<div id="app">
+<!--
+    计算属性：
+        1. 定义：要用的属性不存在，要通过已有的属性计算而来。
+        2. 原理：底层借助了Object.defineProperty()方法提供的getter和setter
+        3. get函数什么时候执行：
+            （1）初次读取数据时执行一次
+            （2）当依赖的数据发生变化时会再次调用
+        4. 优势：与methods相比， 内部有缓存机制（复用），效率高，调试方便
+        5. 备注：
+            (1)计算属性最终会出现在vm上，直接读取使用即可
+            (2)如果计算属性要被修改，那必须写set函数去响应修改，且set中要引起计算时所依赖的数据发生变化
+  -->
+
+    姓：<input type="text" v-model=firstName><br><br>
+    名：<input type="text" v-model=lastName><br><br>
+    全名：<input type="text" v-model=fullName><br><br>
+    全名：<span>{{fullName}}</span><br><br>
+    全名：<span>{{fullName}}</span><br><br>
+    全名：<span>{{fullName}}</span><br><br>
+    全名：<span>{{fullName}}</span><br><br>
+</div>
+
+<script src="../lib/js/vue.js"></script>
+<script>
+    Vue.config.productionTip = false;
+    let vm = new Vue({
+        el: "#app",
+        data() {
+            return {
+                firstName: "张",
+                lastName: "三",
+            }
+        },
+        methods:{},
+        computed:{
+            fullName: {
+                // get有什么作用
+                // 当 有人读取fullName时, get就会被调用
+                // get什么时候调用：
+                // 1. 初次读取fullName
+                // 2. 所依赖的数据发生变化时
+                get(){
+                    console.log(this);// 此处的this时vm
+                    return this.firstName + " - " + this.lastName;
+                },
+                // set什么时候被调用
+                set(value){
+                    console.log('set被调用');
+                    let strArr = value.split(" - ");
+                    this.firstName = strArr[0];
+                    this.lastName = strArr[1];
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

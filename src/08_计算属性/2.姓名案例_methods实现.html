@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1.姓名案例_插值语法实现.html</title>
+
+</head>
+<body>
+<div id="app">
+
+    <!--  注意：如果差值语法里面写的是methods的话，只要data中的数据发生改变，Vue就会重新解析一遍，就会重现调用methods的方法获取返回值，无论该methods是否修改。  -->
+    <h1>{{test()}}</h1>
+    姓：<label><input type="text" v-model=firstName></label><br><br>
+    名：<label><input type="text" v-model=lastName></label><br><br>
+    全名：<span>{{fullName()}}</span>
+</div>
+
+<script src="../lib/js/vue.js"></script>
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                firstName: "张",
+                lastName: "三",
+            }
+        },
+        methods: {
+            fullName() {
+                return this.firstName + " - " + this.lastName;
+            },
+            test() {
+                console.log("调用了test")
+                return "methods方法实现";
+            }
+        }
+    });
+</script>
+</body>
+</html>
