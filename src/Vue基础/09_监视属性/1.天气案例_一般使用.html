@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>天气案例.html</title>
+</head>
+<body>
+
+<!--
+    监视属性watch：
+        1. 当被监视的属性变化时，回调函数自动调用，进行相关操作
+        2. 监视的属性必须存在，才能进行监视
+        3. 监视的两种方法：
+            (1)new Vue时传入watch配置
+            (2)通过vm.$watch监视
+-->
+
+<div id="app">
+    <h2>今天天气很{{info}}！{{x}}</h2><br>
+    <!--这里可以写的代码尽量少，简单表达式-->
+    <button @click="isHoot = !isHoot;/*x++;window.alert('Hello')*/">切换天气</button>
+    <br>
+    <span>{{message}}</span>
+</div>
+
+<script src="/lib/js/vue.js"></script>
+<script>
+    Vue.config.productionTip = false;
+    let vm = new Vue({
+        el: "#app",
+        data() {
+            return {
+                isHoot: true,
+                x: 0,
+                window,
+                message: "操作记录：\n",
+            }
+        },
+        methods: {
+            // change() {
+            //     this.isHoot = !this.isHoot;
+            // }
+        },
+        computed: {
+            info() {
+                return this.isHoot ? "炎热" : "凉快";
+            }
+        },
+        watch: {
+            // 可以检测普通熟悉与计算属性
+            isHoot: {
+                // 初始化时让handler调用一下
+                immediate: true,
+                // handler 什么时候调用的？ isHot 发生改变时
+                handler(newValue, oldValue) {
+                    console.log("isHoot 被修改了 从: " + oldValue + " 变成了: " + newValue);
+                    this.message += "[isTure](" + oldValue + " --> " + newValue + ")    ";
+                }
+            },
+        }
+    });
+    // 检测方式二：
+    vm.$watch('isHoot', {
+        handler(newValue, oldValue) {
+            console.log("Hello, Maple");
+        }
+    });
+</script>
+</body>
+</html>

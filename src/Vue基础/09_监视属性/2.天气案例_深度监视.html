@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>天气案例.html</title>
+</head>
+<body>
+
+<!--
+    深度监视：
+        (1)Vue中的watch默认不监视对象内部值得改变（一层）
+        (2)配置deep:true,可以对象内部的改变（多层）
+    备注：
+        (1)Vue自身可以检测对象内部值得改变，但Vue提供的watch不可以
+        (2)使用watch时根据数据的具体结构，决定是否采用深度监视
+-->
+
+<div id="app">
+    <h2>今天天气很{{info}}！{{x}}</h2><br>
+    <!--这里可以写的代码尽量少，简单表达式-->
+    <button @click="isHoot = !isHoot;/*x++;window.alert('Hello')*/">切换天气</button>
+    <br>
+    <hr>
+    <h2>a的值是{{numbers.a}}</h2>
+    <button @click="numbers.a++">点我a+1</button>
+    <h2>b的值是{{numbers.b}}</h2>
+    <button @click="numbers.b++">点我b+1</button>
+</div>
+
+<script src="/lib/js/vue.js"></script>
+<script>
+    Vue.config.productionTip = false;
+    let vm = new Vue({
+        el: "#app",
+        data() {
+            return {
+                isHoot: true,
+                x: 0,
+                window,
+                numbers: {
+                    a: 1,
+                    b: 1,
+                },
+            }
+        },
+        methods: {
+            // change() {
+            //     this.isHoot = !this.isHoot;
+            // }
+        },
+        computed: {
+            info() {
+                return this.isHoot ? "炎热" : "凉快";
+            }
+        },
+        watch: {
+            // 可以检测普通熟悉与计算属性
+            isHoot: {
+                // 初始化时让handler调用一下
+                // immediate: true,
+                // handler 什么时候调用的？ isHot 发生改变时
+                handler(newValue, oldValue) {
+                    console.log("isHoot 被修改了 从: " + oldValue + " 变成了: " + newValue);
+                }
+            },
+            // 监视多个结构中某个属性的变化
+            "numbers.a": {
+                handler(newValue, oldValue) {
+                    console.log("a变了: " + oldValue +  " to " + newValue);
+                }
+            },
+            // 监视多个结构中某个属性的变化
+            numbers: {
+                deep:true,
+                handler() {
+                    console.log("numbers 变了");
+                }
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
