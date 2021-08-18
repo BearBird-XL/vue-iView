@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>天气案例.html</title>
+</head>
+<body>
+
+<!--
+
+-->
+
+<div id="app">
+    <h2>今天天气很{{info}}！{{x}}</h2><br>
+    <!--这里可以写的代码尽量少，简单表达式-->
+    <button @click="isHoot = !isHoot;/*x++;window.alert('Hello')*/">切换天气</button>
+</div>
+
+<script src="/lib/js/vue.js"></script>
+<script>
+    Vue.config.productionTip = false;
+    let vm = new Vue({
+        el: "#app",
+        data() {
+            return {
+                isHoot: true,
+                x: 0,
+                window,
+                numbers: {
+                    a: 1,
+                    b: 1,
+                },
+            }
+        },
+        methods: {
+            // change() {
+            //     this.isHoot = !this.isHoot;
+            // }
+        },
+        computed: {
+            info() {
+                return this.isHoot ? "炎热" : "凉快";
+            }
+        },
+        watch: {
+            // 一般写法
+            // 可以检测普通熟悉与计算属性
+            // isHoot: {
+            //     // 初始化时让handler调用一下
+            //     // immediate: true,
+            //     // handler 什么时候调用的？ isHot 发生改变时
+            //     // deep:true,// 深度监视
+            //     // 不需要deep immediate 即可开启简写（当配置项中只有handler时，可以开启简写）
+            //     handler(newValue, oldValue) {
+            //         console.log("isHoot 被修改了 从: " + oldValue + " 变成了: " + newValue);
+            //     }
+            // }
+
+            // 简写
+            isHoot(oldValue, newValue) {
+                console.log(oldValue + " --- " + newValue);
+            }
+        }
+    });
+
+    // // 正常写法
+    // vm.$watch('isHoot', {
+    //     // 初始化时让handler调用一下
+    //     // immediate: true,
+    //     // handler 什么时候调用的？ isHot 发生改变时
+    //     // deep:true,// 深度监视
+    //     // 不需要deep immediate 即可开启简写（当配置项中只有handler时，可以开启简写）
+    //     handler(newValue, oldValue) {
+    //         console.log("isHoot 被修改了 从: " + oldValue + " 变成了: " + newValue);
+    //     }
+    // })
+
+    vm.$watch('isHoot', function (newValue, oldValue){
+        console.log(oldValue + " --> " + newValue);
+    });
+
+</script>
+</body>
+</html>
