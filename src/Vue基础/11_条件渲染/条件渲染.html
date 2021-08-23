@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>11_条件渲染</title>
+</head>
+<style>
+    .basic {
+        text-align: center;
+        width: 400px;
+        height: 100px;
+        border: 1px solid black;
+    }
+</style>
+<body>
+
+<!--
+        条件渲染：
+            1. v-if
+                写法：
+                    (1)v-if=""
+                    (2)v-else-if=""
+                    (3)v-else
+            适用于切换频率比较低的场景
+            特点：不展示的DOM元素直接删除
+            注意：v-if可以和v-else-if、v-else一起使用，但要求结构不能被打断
+           2. v-show
+                写法：v-show="表达式"
+                适用于：切换频率较高的场景
+                特点：不展示的DOM元素不被删除，仅仅是样式隐藏
+           3. 备注：
+                使用v-if时， 元素可能无法获取到，而使用v-show一定可以获取到。
+-->
+<div id="app">
+
+    <!--  使用v-show做条件渲染 底层 display 元素节点还在  -->
+    <div class="basic" v-show="h2.isShow" @click="changeShow">欢迎来到{{h2.name}}</div>
+    <br>
+    <hr>
+    <br>
+    <!--  使用v-if  节点不在-->
+    <div class="basic" v-if="!h2.isShow" @click="changeShow">欢迎来到{{h2.name}}</div>
+    <h1>n = {{n}}</h1>
+    <button @click="addN">点我</button>
+    <div v-if="n === 1">angular</div>
+    <div v-else-if="n === 2">react</div>
+    <div v-else-if="n === 3">vue</div>
+    <div v-else>Maple</div>
+
+    <!--  只有v-if可以和templates使用  -->
+    <template v-if="n === 1">
+        <h1>你好</h1>
+        <h1>Tokyo</h1>
+        <h1>maple</h1>
+    </template>
+
+</div>
+
+<script src="/lib/js/vue.js"></script>
+<script>
+    Vue.config.productionTip = false;
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            h2: {
+                isShow: false,
+                name: 'This World',
+            },
+            n: '0',
+        },
+        methods: {
+            changeShow() {
+                this.h2.isShow = !this.h2.isShow;
+            },
+            addN() {
+                this.n++;
+            }
+        }
+    });
+</script>
+</body>
+</html>

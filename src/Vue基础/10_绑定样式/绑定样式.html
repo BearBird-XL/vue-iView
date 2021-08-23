@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>10_绑定样式</title>
+    <style>
+        .basic {
+            text-align: center;
+            width: 400px;
+            height: 100px;
+            border: 1px solid black;
+        }
+
+        .happy {
+            background-color: #d29e7c;
+        }
+
+        .sad {
+            background-color: #5fda6a;
+        }
+
+        .normal {
+            background-color: #69a7e5;
+        }
+
+        .xl1 {
+            background-color: #8cbff3;
+        }
+
+        .xl2 {
+            font-size: 30px;
+        }
+
+        .xl3 {
+            border: 3px solid rgba(159, 183, 54, 0.91);
+        }
+    </style>
+</head>
+<body>
+<!--
+        绑定样式：
+            1. class样式
+                写法：class="xxx", xxx可以是字符串、对象、数组
+                字符串写法适用于，类名不确定，需要动态获取
+                对象写法适用于，要绑定多个样式，个数不确定，名字也不确定
+                数组写法适用于，要绑定多个样式，个数确定，名字也确定，但不确定用不用
+            2. style样式
+                :style='{fontSize: xxx}',其中xxx是动态值
+                :style='[a, b]' 其中a、b是样式对象
+
+-->
+<div id="app">
+    <!--  绑定class样式--字符串写法, 适用于样式的类目不确定，需要动态指定  -->
+    <div id="demo" class="basic" :class="mood" @click="changeMood">{{name}}</div>
+    <br><br><br>
+    <!--  绑定class样式--数组写法，适用于要绑定的样式个数不确定，名字不确定  -->
+    <div class="basic" :class="arr">{{name}}</div>
+    <br><br><br>
+
+    <!--  绑定class样式--对象写法，适用于要绑定的样式个数确定，名字确定，但要决定动态用不用  -->
+    <div class="basic" :class="classObj">{{name}}</div>
+    <br><br><br>
+    <!--  内联样式style对象写法  -->
+    <div class="basic" :style="styleObj">{{name}}</div>
+    <br><br><br>
+    <!--  内联样式数组写法  -->
+    <div class="basic" :style="styleArr">{{name}}</div>
+</div>
+
+<script src="/lib/js/vue.js"></script>
+<script>
+    Vue.config.productionTip = false;
+    let vm = new Vue({
+        el: "#app",
+        data() {
+            return {
+                name: "maple",
+                mood: 'normal',
+                arr: ['xl1', 'xl2', 'xl3'],
+                classObj: {
+                    xl1: false,
+                    xl2: false,
+                },
+                styleObj: {
+                    fontSize: '40px',
+                    color: `red`,
+                    background: `#334455`,
+                },
+                styleArr: [
+                    this.styleObj,
+                    {color: `Green`},
+                ],
+            }
+        },
+        methods: {
+            changeMood() {
+                // document.getElementById('demo').className = 'basic happy';
+                const moodArr = ['happy', 'sad', 'normal'];
+                this.mood = moodArr[Math.floor(Math.random() * 3)];
+            },
+            changeXl() {
+
+            }
+        }
+    });
+</script>
+</body>
+</html>
