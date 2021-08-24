@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>6.Vue监测数据改变的原理.html</title>
+    <script src="/lib/js/vue.js"></script>
+</head>
+<style>
+    .basic {
+        text-align: center;
+        width: 400px;
+        height: 800px;
+        border: 1px solid black;
+    }
+</style>
+<body>
+
+<!--
+
+-->
+<div id="app" class="basic">
+
+    <h2>学校名称：{{name}}</h2>
+    <h2>学校地址：{{address}}</h2>
+
+</div>
+
+<script>
+    Vue.config.productionTip = false;
+
+    // 用计算属性实现
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            name: 'Maple',
+            address: 'Tokyo',
+        },
+        methods: {}
+    });
+</script>
+</body>
+</html>

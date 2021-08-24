@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>7模拟一个数据监视.html</title>
+</head>
+<body>
+<div id="app">
+
+</div>
+
+<script>
+    let data = {
+        name: 'Maple',
+        address: 'Tokyo',
+    }
+
+    /*let temp = data.name;
+    setInterval(() => {
+        if (data.name !== temp) {
+            temp = data.name;
+            console.log("data.name is changed")
+        }
+    }, 100)*/
+
+    // 观察者类
+    function Observer(obj) {
+        this.observable = obj;
+        // 汇总obj中所有的属性，形成一个数组
+        const keys = Object.keys(obj);
+        // 遍历
+        keys.forEach((k) => {
+            Object.defineProperty(this, k, {
+                get() {
+                    return obj[k];
+                },
+                set(val) {
+                    obj[k] = val;
+                }
+            })
+        })
+    }
+
+    // 创建一观察者实例对象
+    let obs = new Observer(data);
+
+</script>
+</body>
+</html>
