@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>6.Vue监测数据改变的原理.html</title>
+    <script src="/lib/js/vue.js"></script>
+</head>
+<style>
+    .basic {
+        text-align: center;
+        width: 400px;
+        height: 800px;
+        border: 1px solid black;
+    }
+</style>
+<body>
+
+<!--
+			Vue监视数据的原理：
+				1. vue会监视data中所有层次的数据。
+
+				2. 如何监测对象中的数据？
+                        通过setter实现监视，且要在new Vue时就传入要监测的数据。
+                            (1).对象中后追加的属性，Vue默认不做响应式处理
+                            (2).如需给后添加的属性做响应式，请使用如下API：
+                                    Vue.set(target，propertyName/index，value) 或
+                                    vm.$set(target，propertyName/index，value)
+
+				3. 如何监测数组中的数据？
+                        通过包裹数组更新元素的方法实现，本质就是做了两件事：
+                            (1).调用原生对应的方法对数组进行更新。
+                            (2).重新解析模板，进而更新页面。
+
+				4.在Vue修改数组中的某个元素一定要用如下方法：
+                        1.使用这些API:push()、pop()、shift()、unshift()、splice()、sort()、reverse()
+                        2.Vue.set() 或 vm.$set()
+
+				特别注意：Vue.set() 和 vm.$set() 不能给vm 或 vm的根数据对象 添加属性！！！
+		-->
+<div id="app" class="basic">
+
+    <h2>学校名称：{{name}}</h2>
+    <h2>学校地址：{{address}}</h2>
+    <hr>
+
+    <button @click="student.age.rAge++;student.age.sAge++">年龄+1</button>
+    <br>
+    <button @click.once="addSex">添加性别</button>
+    <button @click="student.sex='未知'">修改性别</button>
+    <br>
+    <button @click="student.friends.splice(1, 0, {name:'Maple',age:29})">添加一个朋友</button>
+    <br>
+    <button @click="student.friends[0].name += 'IU'">修改第一个朋友的名字</button>
+    <br>
+    <button @click="student.hobby.splice(1,0,'摄影')">添加一个爱好</button>
+    <button @click="student.hobby.splice(0,1,'听歌')">修改一个爱好</button>
+    <br>
+    <h2>学生姓名：{{student.name}}</h2>
+    <h2 v-if="student.sex">学生性别：{{student.sex}}</h2>
+    <h2>学生年龄：真实{{student.age.rAge}}, 对外{{student.age.sAge}}</h2>
+    <h2>Hobby:</h2>
+    <ul>
+        <li v-for="(h, index) in student.hobby" :key="index">{{h}}</li>
+    </ul>
+    <h2>朋友们:</h2>
+    <ul>
+        <li v-for="(f, index) in student.friends" :key="index">{{f.name}} - {{f.age}}</li>
+    </ul>
+</div>
+
+<script>
+    Vue.config.productionTip = false;
+
+    // 用计算属性实现
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            name: 'Maple Flower School',
+            address: 'Tokyo',
+            student: {
+                name: 'Maple',
+                age: {
+                    rAge: 18,
+                    sAge: 20,
+                },
+                hobby: ['抽烟', '喝酒', '烫头'],
+                friends: [
+                    {name: 'IU', age: 29},
+                    {name: 'Tayeon', age: 31},
+                ]
+            }
+        },
+        methods: {
+            addSex() {
+                Vue.set(this.student, 'sex', '女');
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
