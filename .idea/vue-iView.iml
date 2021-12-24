@@ -10,5 +10,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="vue" level="application" />
     <orderEntry type="library" name="video.js" level="application" />
+    <orderEntry type="library" name="browse" level="application" />
+    <orderEntry type="library" name="vue" level="application" />
   </component>
 </module>
