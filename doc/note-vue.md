@@ -17,4 +17,4 @@
 1. [vue官方网站](https://v3.cn.vuejs.org/)
 2. [Awesome Vue Vue相关第三次插件](https://awesome-vue.js.org/)
 3. [Awesome JS GitHub](https://github.com/sorrycc/awesome-javascript)
-4. [Awesome JS 官网](https://awsomejs.dev/for/vue)
+4. [Awesome JS 官网](https://awesomejs.dev/)
